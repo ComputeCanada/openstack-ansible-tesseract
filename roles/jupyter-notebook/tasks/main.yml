@@ -1,0 +1,11 @@
+---
+# tasks file for jupyter_notebook
+
+- name: Process the Jupyter Notebook config template
+  template:
+    src: "templates/{{ jupyter_template_name }}"
+    dest: "{{ jupyter_config_dest }}"
+    backup: yes
+    owner: ubuntu
+    group: ubuntu
+

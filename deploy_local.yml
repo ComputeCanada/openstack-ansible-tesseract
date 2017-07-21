@@ -11,3 +11,5 @@
 
   roles:
   - { role: openssl-certs }
+  - { role: jupyter-notebook }
+

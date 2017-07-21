@@ -5,11 +5,15 @@
   file:
     path: "{{ ssl_dir }}"
     state: directory
+    owner: ubuntu
+    group: ubuntu
 
 - name: Copy cert and key files
   copy:
     src: "{{ item }}"
     dest: "{{ ssl_dir }}"
+    owner: ubuntu
+    group: ubuntu
   with_items:
   - "{{ cert_file_src }}"
   - "{{ key_file_src }}"
