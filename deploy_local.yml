@@ -9,3 +9,5 @@
       path: "/etc/hosts"
       line: "{{ server_local_ip }}    {{ server_hostname }}"
 
+  roles:
+  - { role: openssl-certs }

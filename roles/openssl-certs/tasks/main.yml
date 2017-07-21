@@ -1,0 +1,16 @@
+---
+# tasks file for openssl-certs
+
+- name: Create the local certs directory
+  file:
+    path: "{{ ssl_dir }}"
+    state: directory
+
+- name: Copy cert and key files
+  copy:
+    src: "{{ item }}"
+    dest: "{{ ssl_dir }}"
+  with_items:
+  - "{{ cert_file_src }}"
+  - "{{ key_file_src }}"
+

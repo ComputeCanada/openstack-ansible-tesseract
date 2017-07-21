@@ -1,0 +1,8 @@
+---
+# defaults file for openssl-certs
+
+cert_file_src: "files/jupyter.pem"
+key_file_src: "files/jupyter.key"
+ssl_dir: "/home/ubuntu/.certs"
+
+
