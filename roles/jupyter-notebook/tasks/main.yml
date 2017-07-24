@@ -9,3 +9,11 @@
     owner: ubuntu
     group: ubuntu
 
+- name: Copy the config .json file (password)
+  file:
+    src: "files/{{ jupyter_config_json }}"
+    dest: "{{ jupyter_config_home }}"
+    owner: ubuntu
+    group: ubuntu
+    mode: 0600
+

@@ -3,5 +3,8 @@
 
 jupyter_ssl_port: 9999
 jupyter_template_name: jupyter_notebook_config.py.j2
-jupyter_config_dest: "/home/ubuntu/.jupyter/jupyter_notebook_config.py"
+jupyter_config_home: "/home/ubuntu/.jupyter"
+jupyter_config_file: "jupyter_notebook_config.py"
+jupyter_config_dest: "{{ jupyter_config_home }}/{{ jupyter_config_file }}"
+jupyter_config_json: "jupyter_notebook_config.json"
 
