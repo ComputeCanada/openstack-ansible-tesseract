@@ -17,3 +17,28 @@
     group: ubuntu
     mode: 0600
 
+- name: Create working directory
+  file:
+    path: "{{ jupyter_workdir }}"
+    state: directory
+    mode: 0755
+
+- name: Copy systemd service file
+  copy:
+    src: "files/{{ jupyter_service_file }}"
+    dest: "/etc/systemd/system/{{ jupyter_service_file }}"
+    owner: root
+    group: root
+    mode: 0644
+  register: service_file
+
+- name: Register the new service
+  shell: systemctl daemon-reload
+  when: service_file.changed
+
+- name: Enable and start service
+  service:
+    name: jupyter-notebook
+    state: restarted
+    enabled: yes
+

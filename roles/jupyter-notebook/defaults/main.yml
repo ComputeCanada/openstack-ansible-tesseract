@@ -7,4 +7,5 @@ jupyter_config_home: "/home/ubuntu/.jupyter"
 jupyter_config_file: "jupyter_notebook_config.py"
 jupyter_config_dest: "{{ jupyter_config_home }}/{{ jupyter_config_file }}"
 jupyter_config_json: "jupyter_notebook_config.json"
-
+jupyter_service_file: "jupyter-notebook.service"
+jupyter_workdir: "/home/ubuntu/Notebooks/"
