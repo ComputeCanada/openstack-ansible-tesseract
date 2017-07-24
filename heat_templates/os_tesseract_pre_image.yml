@@ -186,6 +186,7 @@ resources:
             #cloud-config
             apt_sources:
               - source: "ppa:ansible/ansible"
+              - source: "ppa:alex-p/tesseract-ocr"
             package_update: DOUPDATES
             package_upgrade: DOUPGRADES
             packages:
@@ -197,6 +198,10 @@ resources:
               - python-dev
               - ipython
               - ipython-notebook
+              - tesseract-ocr
+              - tesseract-ocr-eng
+              - tesseract-ocr-fra
+              - imagemagick
             runcmd:
               - ["pip", "install", "--upgrade", "pip"]
               - ["pip", "install", "jupyter"]
