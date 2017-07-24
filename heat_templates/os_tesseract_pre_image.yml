@@ -187,6 +187,7 @@ resources:
             apt_sources:
               - source: "ppa:ansible/ansible"
               - source: "ppa:alex-p/tesseract-ocr"
+              - source: "ppa:webupd8team/java"
             package_update: DOUPDATES
             package_upgrade: DOUPGRADES
             packages:
@@ -203,6 +204,8 @@ resources:
               - tesseract-ocr-fra
               - imagemagick
             runcmd:
+              - echo oracle-java8-installer shared/accepted-oracle-license-v1-1 select true | /usr/bin/debconf-set-selections
+              - apt install -y oracle-java8-installer
               - ["pip", "install", "--upgrade", "pip"]
               - ["pip", "install", "jupyter"]
               - ["pip", "install", "pystack"]
@@ -225,4 +228,3 @@ outputs:
   public_ip:
     description: Floating IP address used for this server
     value: { get_attr: [ instance_floating_ip, floating_ip_address ] }
-
