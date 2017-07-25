@@ -21,6 +21,8 @@
   file:
     path: "{{ jupyter_workdir }}"
     state: directory
+    owner: ubuntu
+    group: ubuntu
     mode: 0755
 
 - name: Copy systemd service file
