@@ -1,0 +1,72 @@
+---
+# tasks file for apache-spark
+
+- name: Check if spark is already installed
+  stat:
+    path: "{{ spark_dest }}"
+  register: spark_dir
+
+- name: Download binary archive
+  get_url:
+    url: "{{ spark_download_url }}"
+    dest: "/tmp/"
+  register: spark_package
+  when: spark_dir.stat.exists == False
+
+- name: Unarchive binary files
+  unarchive:
+    src: "/tmp/{{ spark_file_name }}"
+    dest: "/tmp"
+    owner: root
+    group: root
+    remote_src: yes
+  when: spark_package.changed
+  register: spark_unarchive
+
+- name: Remove the binary source archive
+  file:
+    path: "/tmp/{{ spark_file_name }}"
+    state: absent
+  when: spark_unarchive.changed
+
+- name: Move binary files to /usr/lib
+  command: creates="{{ spark_dest }}" mv -f "/tmp/{{ spark_version }}" "{{ spark_dest }}" #"
+  when: spark_unarchive.changed
+
+- name: Add sbt deb repo
+  copy:
+    src: "files/{{ sbt_repo_file }}"
+    dest: "{{ sbt_repo_dest }}/{{ sbt_repo_file }}"
+    owner: root
+    group: root
+    mode: 0644
+
+- name: Add the sbt authorization key
+  command: apt-key adv --keyserver "{{ sbt_keyserver }}" --recv "{{ sbt_key_recv }}"
+
+- name: Install sbt
+  apt:
+    name: "sbt"
+    state: present
+    update_cache: yes
+
+- name: Process the spark-env template
+  template:
+    src: "templates/{{ spark_conf_template }}"
+    dest: "{{ spark_conf_file_dir }}/{{ spark_conf_file_name }}"
+    owner: root
+    group: root
+    mode: 0755
+
+- name: Disable IPv6
+  lineinfile:
+    path: "/etc/sysctl.conf"
+    line: "{{ item }}"
+  with_items: "{{ disable_ipv6_lines }}"
+
+- name: Modify bashrc
+  lineinfile:
+    path: "/home/ubuntu/.bashrc"
+    line: "{{ item }}"
+  with_items: "{{ bashrc_lines }}"
+

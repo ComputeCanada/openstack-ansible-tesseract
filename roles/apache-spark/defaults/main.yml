@@ -1,0 +1,30 @@
+---
+# defaults file for apache-spark
+
+spark_download_url: "https://d3kbcqa49mib13.cloudfront.net/spark-2.2.0-bin-hadoop2.7.tgz"
+spark_version: "spark-2.2.0-bin-hadoop2.7"
+spark_file_name: "{{ spark_version }}.tgz"
+spark_dest: "/usr/lib/spark"
+
+sbt_repo_file: "sbt.list"
+sbt_repo_dest: "/etc/apt/sources.list.d"
+sbt_keyserver: "hkp://keyserver.ubuntu.com:80"
+sbt_key_recv: "2EE0EA64E40A89B84B2DF73499E82A75642AC823"
+
+spark_java_home: "/usr/lib/jvm/java-8-oracle"
+spark_worker_memory: "4g"
+spark_conf_template: "spark-env.sh.template.j2"
+spark_conf_file_dir: "{{ spark_dest }}/conf"
+spark_conf_file_name: "spark-env.sh"
+
+disable_ipv6_lines:
+  - "net.ipv6.conf.all.disable_ipv6 = 1"
+  - "net.ipv6.conf.default.disable_ipv6 = 1"
+  - "net.ipv6.conf.lo.disable_ipv6 = 1"
+
+bashrc_lines:
+  - "export JAVA_HOME={{ spark_java_home }}"
+  - "export SBT_HOME=/usr/share/sbt-launcher-packaging/bin/sbt-launch.jar"
+  - "export SPARK_HOME={{ spark_dest }}"
+  - "export PATH=$PATH:$JAVA_HOME/bin"
+  - "export PATH=$PATH:$SBT_HOME/bin:$SPARK_HOME/bin:$SPARK_HOME/sbin"
