@@ -2,7 +2,7 @@ heat_template_version: 2015-04-30
 
 
 description: |
-  Creates and configures a single VM used for teaching tesseract4.
+  Creates and configures a single VM used for teaching tesseract.
 
 
 parameter_groups:
