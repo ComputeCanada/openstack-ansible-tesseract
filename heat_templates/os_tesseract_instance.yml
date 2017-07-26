@@ -9,9 +9,6 @@ parameter_groups:
   - label: VM parameters
     description: Parameters required to orchestrate the VM
     parameters:
-    - sg_name
-    - sg_ssh_port
-    - sg_jupyter_ssl_port
     - private_network
     - public_network
     - kp_name
