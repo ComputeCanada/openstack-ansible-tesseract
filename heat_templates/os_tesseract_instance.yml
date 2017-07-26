@@ -2,7 +2,7 @@ heat_template_version: 2015-04-30
 
 
 description: |
-  Creates and configures a VM used for teaching tesseract4.
+  Creates and configures a single VM used for teaching tesseract4.
 
 
 parameter_groups:
@@ -27,58 +27,29 @@ parameter_groups:
 
 
 parameters:
-  sg_name:
-    type: string
-    label: Specify the security group name
-    description: Name of the security group for this instance
-    default: jupyter_sg
-
-  sg_ssh_port:
-    type: string
-    label: Specify your SSH port
-    description: Port used for SSH network communication
-    default: 22
-
-  sg_jupyter_ssl_port:
-    type: string
-    label: Specify your Jupyter Notebook remote port
-    description: Port used by your workstation to access Jupyter Notebook
-    default: 9999
-
   private_network:
     type: string
     label: Specify the private network used for this instance
     description: Private network name or ID used for this instance
-    default: ivm-814_network
-    constraints:
-      - custom_constraint: neutron.network
+    default: dhsi-cloud_network
 
   public_network:
     type: string
     label: Specify the public network (west-cloud/east-cloud)
     description: Public network name or ID used for this instance
     default: VLAN3337
-    constraints:
-      - allowed_values:
-        - VLAN3337
-        - net04_ext
 
   kp_name:
     type: string
     label: Specify an existing key pair
     description: Name of the key pair used for this instance
     default: yoga3pro
-    constraints:
-      - custom_constraint: nova.keypair
-
 
   server_image:
     type: string
     label: Specify the image used to create the instance
     description: Name of the image used to create the VM
     default: tesseract4-student-image-201707260758
-    constraints:
-      - custom_constraint: glance.image
 
   server_name:
     type: string
@@ -91,8 +62,6 @@ parameters:
     label: Specify the VM hardware type for this instance
     description: It is recommended to select a 'p' flavor
     default: c4-15gb-83
-    constraints:
-      - custom_constraint: nova.flavor
 
   do_updates:
     type: string
@@ -116,27 +85,14 @@ parameters:
 
 
 resources:
-  instance_security_group:
-    type: OS::Neutron::SecurityGroup
-    properties:
-      description: Security group used for this instance
-      name: { get_param: sg_name }
-      rules:
-        - protocol: tcp
-          remote_ip_prefix: 0.0.0.0/0
-          port_range_min: { get_param: sg_ssh_port }
-          port_range_max: { get_param: sg_ssh_port }
-        - protocol: tcp
-          remote_ip_prefix: 0.0.0.0/0
-          port_range_min: { get_param: sg_jupyter_ssl_port }
-          port_range_max: { get_param: sg_jupyter_ssl_port }
-
   instance_port:
     type: OS::Neutron::Port
     properties:
       network: { get_param: private_network }
       security_groups:
-        - { get_resource: instance_security_group }
+        - default
+        - ssh
+        - jupyter_ssl
 
   instance_server:
     type: OS::Nova::Server
