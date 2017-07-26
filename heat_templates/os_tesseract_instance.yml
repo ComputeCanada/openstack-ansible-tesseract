@@ -31,7 +31,7 @@ parameters:
     type: string
     label: Specify the security group name
     description: Name of the security group for this instance
-    default: tesseract_sg
+    default: jupyter_sg
 
   sg_ssh_port:
     type: string
