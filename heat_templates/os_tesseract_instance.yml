@@ -52,7 +52,7 @@ parameters:
     type: string
     label: Specify the name of the instance
     description: Name used to identify the VM
-    default: tesseract-test
+    default: tesseract-student-vm
 
   server_flavor:
     type: string
